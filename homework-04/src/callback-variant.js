@@ -1,20 +1,20 @@
-const throwDice = require('./callback-func');
+const { throwDice } = require('./callback-func');
 
 setTimeout(() => {
-  throwDice((errorMsgFirstThrow, randomNumFirstThrow) => {
+  throwDice((errorMsgFirstThrow, diceResultFirstThrow) => {
     if (errorMsgFirstThrow) {
       console.log(errorMsgFirstThrow);
     } else {
-      console.log(`First throw dice is ${randomNumFirstThrow}`);
+      console.log(`First throw dice is ${diceResultFirstThrow}`);
       setTimeout(() => {
-        throwDice((errorMsgSecondThrow, randomNumSecondThrow) => {
+        throwDice((errorMsgSecondThrow, diceResultSecondThrow) => {
           if (errorMsgSecondThrow) {
             console.log(errorMsgSecondThrow);
           } else {
-            console.log(`Second throw dice is ${randomNumSecondThrow}`);
+            console.log(`Second throw dice is ${diceResultSecondThrow}`);
             setTimeout(() => {
-              const sumRandomNum = randomNumFirstThrow + randomNumSecondThrow;
-              console.log(`Sum of the results of two throws of dices is ${sumRandomNum}`);
+              const sumResultsThrows = diceResultFirstThrow + diceResultSecondThrow;
+              console.log(`Sum of the results of two throws of dices is ${sumResultsThrows}`);
             }, 1000);
           }
         });
