@@ -1,4 +1,4 @@
-const { start } = require('./callback-func');
+const { start, sum } = require('./callback-func');
 
 (async () => {
   try {
@@ -6,10 +6,8 @@ const { start } = require('./callback-func');
     console.log(`First throw dice is ${diceResultFirstThrow}`);
     const diceResultSecondThrow = await start(1300);
     console.log(`Second throw dice is ${diceResultSecondThrow}`);
-    setTimeout(() => {
-      const sumResultsThrows = diceResultFirstThrow + diceResultSecondThrow;
-      console.log(`Sum of the results of two throws of dices is ${sumResultsThrows}`);
-    }, 1000);
+    const sumResultsThrows = await sum(diceResultFirstThrow, diceResultSecondThrow, 1000);
+    console.log(`Sum of the results of two throws of dices is ${sumResultsThrows}`);
   } catch (error) {
     console.log(error);
   }

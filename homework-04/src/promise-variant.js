@@ -1,14 +1,13 @@
-const { start } = require('./callback-func');
+const { start, sum } = require('./callback-func');
 
 start(700)
   .then((diceResultFirstThrow) => {
     console.log(`First throw dice is ${diceResultFirstThrow}`);
     start(1300).then((diceResultSecondThrow) => {
       console.log(`Second throw dice is ${diceResultSecondThrow}`);
-      setTimeout(() => {
-        const sumResultsThrows = diceResultFirstThrow + diceResultSecondThrow;
+      sum(diceResultFirstThrow, diceResultSecondThrow, 1000).then((sumResultsThrows) => {
         console.log(`Sum of the results of two throws of dices is ${sumResultsThrows}`);
-      }, 1000);
+      });
     });
   })
   .catch((err) => {

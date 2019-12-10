@@ -24,4 +24,13 @@ const start = (timeStep) => {
   });
 };
 
-module.exports = { throwDice, start };
+const sum = (firstDiceResult, secondDiseResult, timeStep) => {
+  return new Promise((resolve) => {
+    const results = firstDiceResult + secondDiseResult;
+    setTimeout(() => {
+      resolve(results);
+    }, timeStep);
+  });
+};
+
+module.exports = { throwDice, start, sum };
