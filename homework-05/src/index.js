@@ -15,10 +15,10 @@ const outputFile = path.join(process.cwd(), outputDirName, outputFileName);
 
 async function getInputFileList() {
   try {
-    const files = await fsp.readdir(inputDirName);
+    const files = await fsp.readdir(inputDir);
     return files.map((file) => path.join(inputDir, file));
   } catch (error) {
-    console.error(`Can't find any files in the ${inputDirName} directory`);
+    throw `Can't find any files in the ${inputDirName} directory`;
   }
 }
 
@@ -29,7 +29,7 @@ async function getObjectFromFile(filePath) {
   try {
     compressedBuffer = await fsp.readFile(filePath);
   } catch (error) {
-    console.error(`Can't read the file ${filePath}`);
+    throw `Can't read the file ${filePath}`;
   }
 
   try {
@@ -38,7 +38,7 @@ async function getObjectFromFile(filePath) {
     const object = JSON.parse(json);
     return object;
   } catch (error) {
-    console.error('Problems with decompress buffer');
+    throw 'Problems with decompress buffer';
   }
 }
 
@@ -54,6 +54,9 @@ function rebuildUrl(originalUrl) {
 }
 
 async function buildOutputObject(files) {
+  if (!files.length) {
+    throw 'No files has been provided!';
+  }
   const result = {};
   // eslint-disable-next-line no-restricted-syntax
   for (const file of files) {
@@ -75,7 +78,7 @@ async function saveOutput(object) {
   try {
     compressFile = await gzip(buffer);
   } catch (error) {
-    console.error('Problem with compression json file');
+    throw 'Problem with compression json file';
   }
 
   try {
@@ -83,14 +86,19 @@ async function saveOutput(object) {
     const archive = await fsp.writeFile(outputFile, compressFile);
     console.log('Archive has created');
   } catch (error) {
-    console.error(`Can't save archive`);
+    throw 'Can\'t save archive';
   }
 }
 
 async function start() {
-  const inputFiles = await getInputFileList();
-  const outputObject = await buildOutputObject(inputFiles);
-  await saveOutput(outputObject);
+  try {
+    const inputFiles = await getInputFileList();
+    const outputObject = await buildOutputObject(inputFiles);
+    await saveOutput(outputObject);
+
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 start().catch((err) => console.error('🐞  🤪  🐛\n', err));
