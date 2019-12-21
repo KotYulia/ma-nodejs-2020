@@ -2,9 +2,9 @@
   "name": "homework-06",
   "version": "1.0.0",
   "description": "CLI tool",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node src/app.js",
     "lint": "eslint --ignore-path .gitignore . --fix"
   },
   "author": "Dev",
