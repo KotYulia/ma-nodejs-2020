@@ -1,0 +1,30 @@
+{
+  "name": "homework-08",
+  "version": "1.0.0",
+  "description": "HTTP client",
+  "main": "app.js",
+  "scripts": {
+    "server": "node src/server/app.js",
+    "client": "node src/clients/app.js",
+    "start": "concurrently --kill-others \"npm run server\" \"npm run client\"",
+    "lint": "eslint --ignore-path .gitignore . --fix"
+  },
+  "author": "Dev",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^5.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.1",
+    "prettier": "^1.19.1"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "cli-select": "^1.1.1",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.8"
+  }
+}
