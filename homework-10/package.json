@@ -1,0 +1,26 @@
+{
+  "name": "homework-10",
+  "version": "1.0.0",
+  "description": "DB",
+  "main": "app.js",
+  "scripts": {
+    "start": "NODE_ENV=development node ./src/app",
+    "lint": "eslint --ignore-path .gitignore . --fix"
+  },
+  "author": "Dev",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.2",
+    "prettier": "^1.19.1"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "knex": "^0.20.9",
+    "pg": "^7.18.1"
+  }
+}
