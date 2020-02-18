@@ -12,7 +12,7 @@ const createUsersTable = async () => {
         table.string('password');
         table.string('token');
       })
-      .then(() => console.log('Users table created'))
+      .then(() => console.log(knex.schema.hasTable('users')))
       .catch((error) => {
         console.log(error);
         throw error;
@@ -37,38 +37,32 @@ const createUser = async (login, password, token) => {
     });
 };
 
-const findUser = async (id) => {
+const findUser = async (login) => {
   await knex('users')
-    .where({ id })
-    .then((res) => console.log(`User with id = ${id} is ${res[0].login}`))
+    .where({ login })
+    .then((res) => console.log(`User ${res[0].login} found`))
     .catch((error) => {
       console.log(error);
       throw error;
-    })
-    .finally(() => {
-      knex.destroy();
     });
 };
 
-const updateUser = async (id, params) => {
+const updateUser = async (login, params) => {
   await knex('users')
-    .where({ id })
+    .where({ login })
     .update(params)
     .then((res) => console.log(`User is updated with result ${res}`))
     .catch((error) => {
       console.log(error);
       throw error;
-    })
-    .finally(() => {
-      knex.destroy();
     });
 };
 
-const deleteUser = async (id) => {
+const deleteUser = async (login) => {
   await knex('users')
-    .where({ id })
+    .where({ login })
     .del()
-    .then(() => console.log(`User with ${id} is deleted`))
+    .then(() => console.log(`User ${login} deleted`))
     .catch((error) => {
       console.log(error);
       throw error;
@@ -82,6 +76,6 @@ createUsersTable();
 createUser('login1', 'password1', 'token1');
 createUser('login2', 'password2', 'token2');
 createUser('login3', 'password3', 'token3');
-findUser(2);
-updateUser(1, { login: 'login', token: 'token' });
-deleteUser(3);
+findUser('login2');
+updateUser('login1', { login: 'login', token: 'token' });
+deleteUser('login3');
