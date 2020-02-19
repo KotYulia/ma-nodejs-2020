@@ -1,6 +1,9 @@
 const axios = require('axios');
 const config = require('./config');
 
+let retryTime = 0;
+let retryNum = 0;
+
 const start = (endpoint, timeout) => {
   setTimeout(async () => {
     const options = {
@@ -14,21 +17,21 @@ const start = (endpoint, timeout) => {
     try {
       const res = await axios(options);
       console.log(res.data);
-      config.retryNum = 0;
-      config.retryTime = 5000;
-      start(endpoint, config.retryTime);
+      retryNum = 0;
+      retryTime = 5000;
+      start(endpoint, retryTime);
     } catch (error) {
       console.error(error.response.data);
-      config.retryNum++;
-      config.retryTime += 10000;
-      if (config.retryNum < config.MAX_RETRIES) start(endpoint, config.retryTime);
+      retryNum++;
+      retryTime += 10000;
+      if (retryNum < config.MAX_RETRIES) start(endpoint, retryTime);
     }
   }, timeout);
 };
 
 const axiosService = () => {
   config.endpoints.forEach((endpoint) => {
-    start(endpoint, config.retryTime);
+    start(endpoint, retryTime);
   });
 };
 

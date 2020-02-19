@@ -1,6 +1,9 @@
 const http = require('http');
 const config = require('./config');
 
+let retryTime = 0;
+let retryNum = 0;
+
 const httpReq = (endpoint) => {
   return new Promise((resolve, reject) => {
     const data = JSON.stringify(endpoint.data);
@@ -44,13 +47,13 @@ const start = (endpoint, timeout) => {
       const res = await httpReq(endpoint);
       console.log(res.data);
       if (res.statusCode !== 200) {
-        config.retryNum++;
-        config.retryTime += 10000;
-        if (config.retryNum < config.MAX_RETRIES) start(endpoint, config.retryTime);
+        retryNum++;
+        retryTime += 10000;
+        if (retryNum < config.MAX_RETRIES) start(endpoint, retryTime);
       } else {
-        config.retryNum = 0;
-        config.retryTime = 5000;
-        start(endpoint, config.retryTime);
+        retryNum = 0;
+        retryTime = 5000;
+        start(endpoint, retryTime);
       }
     } catch (error) {
       console.error(error);
@@ -60,7 +63,7 @@ const start = (endpoint, timeout) => {
 
 const httpService = () => {
   config.endpoints.forEach((endpoint) => {
-    start(endpoint, config.retryTime);
+    start(endpoint, retryTime);
   });
 };
 

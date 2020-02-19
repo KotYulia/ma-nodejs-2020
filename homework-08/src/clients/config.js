@@ -2,8 +2,6 @@ const userName = 'Julia';
 const userPass = '654ddf64ff65df4';
 const auth = `Basic ${Buffer.from(`${userName}:${userPass}`).toString('base64')}`;
 const MAX_RETRIES = 30;
-const retryTime = 0;
-const retryNum = 0;
 
 const endpoints = [
   {
@@ -65,6 +63,4 @@ const endpoints = [
 module.exports = {
   endpoints,
   MAX_RETRIES,
-  retryNum,
-  retryTime,
 };
