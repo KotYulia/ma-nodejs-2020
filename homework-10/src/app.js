@@ -4,7 +4,9 @@ const dbOptions = require('./config/config').DB;
 const knex = new Knex(dbOptions);
 
 const createUsersTable = async () => {
-  if (!knex.schema.hasTable('users')) {
+  if (await knex.schema.hasTable('users')) {
+    console.log('Users table exists');
+  } else {
     await knex.schema
       .createTable('users', (table) => {
         table.increments('id');
@@ -12,18 +14,14 @@ const createUsersTable = async () => {
         table.string('password');
         table.string('token');
       })
-      .then(() => console.log(knex.schema.hasTable('users')))
+      .then(() => console.log('Table created!'))
       .catch((error) => {
         console.log(error);
         throw error;
-      })
-      .finally(() => {
-        knex.destroy();
       });
-  } else console.log('Users table exists');
+  }
 };
 
-// eslint-disable-next-line no-unused-vars
 const createUser = async (login, password, token) => {
   await knex('users')
     .insert({ login, password, token })
@@ -31,9 +29,6 @@ const createUser = async (login, password, token) => {
     .catch((error) => {
       console.log(error);
       throw error;
-    })
-    .finally(() => {
-      knex.destroy();
     });
 };
 
@@ -72,10 +67,17 @@ const deleteUser = async (login) => {
     });
 };
 
-createUsersTable();
-createUser('login1', 'password1', 'token1');
-createUser('login2', 'password2', 'token2');
-createUser('login3', 'password3', 'token3');
-findUser('login2');
-updateUser('login1', { login: 'login', token: 'token' });
-deleteUser('login3');
+(async () => {
+  try {
+    await createUsersTable();
+    await createUser('login1', 'password1', 'token1');
+    await createUser('login2', 'password2', 'token2');
+    await createUser('login3', 'password3', 'token3');
+    await findUser('login2');
+    await updateUser('login1', { login: 'login', token: 'token' });
+    await deleteUser('login3');
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+})();
