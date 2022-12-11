@@ -15,7 +15,7 @@
   "author": "Dev",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "nanoid": "^2.1.6"
   },
   "devDependencies": {
